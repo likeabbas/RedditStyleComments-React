@@ -3,8 +3,9 @@ import Modal from 'react-modal';
 import {TextareaAutosize} from "react-autosize-textarea/lib/TextareaAutosize";
 
 interface Props {
-  setModalState:(modalState: ModalState) => void
-  addComment:(text: string) => void
+  setModalState:(ModalState) => void
+  addComment   :(string    ) => void
+
   modalState: ModalState
 }
 
@@ -40,7 +41,7 @@ const ReplyModal = (props: Props) => {
   };
 
   return (
-    <Modal isOpen={true}>
+    <Modal isOpen={true} style={customStyles}>
       <TextareaAutosize
         rows={10}
         style={{ maxHeight: 100, boxSizing: 'border-box', minWidth: '80%' }}
@@ -48,7 +49,7 @@ const ReplyModal = (props: Props) => {
         defaultValue={''}
       />
 
-      <button onClick={() => {setModalOff()}}>close</button>
+      <button onClick={() => {setModalOff()}} >close</button>
       <button onClick={() => {
         props.addComment(state.textarea.value);
         setModalOff();

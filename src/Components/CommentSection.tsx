@@ -38,11 +38,15 @@ const reducer = (state: State, action: Action) => {
   }
 };
 
-
-
 let textarea: HTMLTextAreaElement = document.createElement('textarea');
 
-const initialState : State = {comments: [], textarea: textarea};
+let comment3: CommentObject = {commentText: "tres", children: []};
+let comment2: CommentObject = {commentText: "dos", children: [comment3]};
+let comment1: CommentObject = {commentText: "uno", children: [comment2]};
+
+
+
+const initialState : State = {comments: [comment1], textarea: textarea};
 
 const CommentSection = () => {
   const [state, dispatch] = useReducer(reducer, initialState);

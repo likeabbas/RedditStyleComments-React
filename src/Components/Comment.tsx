@@ -23,10 +23,6 @@ interface Action {
   text : string
 }
 
-interface ModalState {
-  isOpen: boolean
-}
-
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'addComment':
@@ -41,9 +37,8 @@ const reducer = (state: State, action: Action) => {
   }
 };
 
-
 const Comment = (props: CommentProps) => {
-  const [state, dispatch] = useReducer(reducer, {commentText: props.commentText, children: props.children});
+  const [state     , dispatch     ] = useReducer(reducer, {commentText: props.commentText, children: props.children});
   const [modalState, setModalState] = useState({isOpen: false});
 
   const addComment = (text: string) => {
@@ -52,31 +47,36 @@ const Comment = (props: CommentProps) => {
 
   let modal;
   if (modalState.isOpen) {
-    modalState.isOpen = false;
     modal = <ReplyModal addComment={addComment} modalState={modalState} setModalState={setModalState}/>;
   }
 
   return (
     <React.Fragment>
       {modal}
-
+      <div style={{width: props.style.minWidth}}>
       <div style={{width: props.style.minWidth, borderColor: 'yellow', borderStyle: 'solid', textAlign: 'left'}}>
         <p style={{marginTop: 0}}>{state.commentText}</p>
+
         <div style={{display: 'flex', flexDirection: 'row'}}>
-          <div onClick={() => setModalState({isOpen: true})}><Button variant={"contained"} color={"primary"}>Reply</Button></div>
+          <div onClick={() => setModalState({isOpen: true})} >
+            <Button variant={"contained"} color={"primary"}>Reply</Button>
+          </div>
         </div>
       </div>
 
+      <div>
       {
         state.children.map(comment => {
           return (
-            <div style={{display:'flex', minWidth: props.style.minWidth, margin: 0, padding: 0}}>
+            <div style={{display:'flex', flexDirection:'row', margin: 0, padding: 0}}>
               <div style={{width:'1%'}} />
               <Comment style={props.style} commentText={comment.commentText} children={comment.children} />
             </div>
           )
         })
       }
+      </div>
+      </div>
     </React.Fragment>
 
   );
